@@ -1,3 +1,5 @@
+# source kafka_config.sh
+
 # Aliases
 alias zoostart='sudo $kafkadir/kafka_$kafkaversion/bin/zookeeper-server-start.sh $kafkadir/kafka_$kafkaversion/config/zookeeper.properties'
 alias kafkastart='sudo $kafkadir/kafka_$kafkaversion/bin/kafka-server-start.sh $kafkadir/kafka_$kafkaversion/config/server.properties'
@@ -81,5 +83,15 @@ function kafkaTopicDelete(){
     echo "Topic:"$topic
     echo ""
     $kafkadir/kafka_$kafkaversion/bin/kafka-topics.sh --zookeeper localhost:$port --delete --topic $topic
+}
+
+function Kafka_Run_ConsumerGroup(){
+    group=${2:-"my-group"}
+    echo "Topic:"$topic
+    topic=${1:-"Hello-Kafka"}
+    echo "Topic:"$topic
+    echo ""
+    javac -cp "'$kafkadir/kafka_$kafkaversion/libs//*'" $kafkaWorkfolder/ConsumerGroup.java
+    java -cp '$kafkadir/kafka_$kafkaversion/libs/*':. $kafkaWorkfolder/ConsumerGroup $topic $group
 }
 
